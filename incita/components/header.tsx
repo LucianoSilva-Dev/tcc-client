@@ -22,12 +22,20 @@ export default function Header() {
               Início
             </span>
           </Link>
+
+          <Link
+            href="/citar"
+            className={`flex items-center ${isActive("/citar") ? "text-white" : "text-gray-300 hover:text-white transition-colors"}`}
+          >
+            Citações
+          </Link>
         </div>
         <div className="flex items-center space-x-4">
           <Link
             href="/login"
             className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors"
           >
+            
             Entrar
           </Link>
           <Link

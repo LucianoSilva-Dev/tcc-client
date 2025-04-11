@@ -20,7 +20,7 @@ export default function LoginForm() {
     <div className="w-full max-w-md mx-auto flex flex-col items-center">
       {/* Logo */}
       <div className="mb-6">
-        <Image src="/logo.svg" alt="Incita Logo" width={180} height={120} priority />
+        <Image src="/favicon_2d.png" alt="Incita Logo" width={180} height={120} priority />
       </div>
 
       {/* Título */}

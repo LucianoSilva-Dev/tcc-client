@@ -1,8 +1,10 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import Header from "@/../components/header"
+import { RepertorioProvider } from "@/../contexts/repertorio-context"
+import { CitacaoProvider } from "@/../contexts/citacao-context"
 import "./globals.css"
-import Header from "../../components/header"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,9 +21,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <Header />
-        {children}
-        </body>
+        <RepertorioProvider>
+          <CitacaoProvider>
+            <Header />
+            {children}
+          </CitacaoProvider>
+        </RepertorioProvider>
+      </body>
     </html>
   )
 }

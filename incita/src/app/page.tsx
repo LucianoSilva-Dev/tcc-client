@@ -1,67 +1,129 @@
-// app/page.tsx
-import { Search, User, Star, MessageCircle } from "lucide-react";
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Search, Plus } from "lucide-react"
+import Link from "next/link"
+import { useRepertorio } from "@/../contexts/repertorio-context"
+import RepertorioCard from "@/../components/repertorio-card"
+import { useRouter } from "next/navigation"
+
+const categorias = [
+  "Todos",
+  "Filosofia",
+  "Sociologia",
+  "História",
+  "Literatura",
+  "Ciência",
+  "Tecnologia",
+  "Atualidades",
+  "Outro",
+]
 
 export default function Home() {
-  const examples = [
-    {
-      title: "Título da Citação",
-      source: "Fonte da Citação",
-      comments: 12,
-    },
-    {
-      title: "CItação 2",
-      source: "Fonte 2",
-      comments: 8,
-    },
-  ];
+  const router = useRouter()
+  const { repertorios, pesquisar, filtrarPorCategoria } = useRepertorio()
+  const [termoBusca, setTermoBusca] = useState("")
+  const [categoriaAtiva, setCategoriaAtiva] = useState<string | null>(null)
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    // A busca já acontece em tempo real, mas podemos adicionar lógica adicional aqui se necessário
+  }
+
+  const handleEditRepertorio = (id: string) => {
+    router.push(`/editar/${id}`)
+  }
+
+  // Aplicar filtros
+  let repertoriosFiltrados = categoriaAtiva
+    ? filtrarPorCategoria(categoriaAtiva === "Todos" ? null : categoriaAtiva)
+    : repertorios
+
+  if (termoBusca) {
+    repertoriosFiltrados = pesquisar(termoBusca)
+  }
 
   return (
-    <main className="min-h-screen bg-[#F3F4F6]">
+    <main className="min-h-screen flex flex-col">
+      {/* Conteúdo principal */}
+      <div className="flex-1 bg-gray-100 py-12">
+        <div className="container mx-auto px-4">
+          {/* Título e pesquisa */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">
+              Pronto para turbinar
+              <br />
+              suas redações?
+            </h1>
 
-      {/* Conteúdo */}
-      <section className="flex flex-col items-center justify-center px-4 py-10">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center text-[#1E2C30] mb-6">
-          Display de Citações
-        </h2>
+            <div className="max-w-xl mx-auto">
+              <form onSubmit={handleSearch} className="relative mb-4">
+                <input
+                  type="text"
+                  placeholder="Pesquise por um repertório"
+                  className="w-full py-3 pl-12 pr-4 bg-gray-400/50 text-gray-800 rounded-full focus:outline-none"
+                  value={termoBusca}
+                  onChange={(e) => setTermoBusca(e.target.value)}
+                />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+              </form>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-          {examples.map((example, index) => (
-            <div
-              key={index}
-              className="bg-[#475A5C] rounded-xl p-4 text-white shadow-lg"
-            >
-              <div className="flex justify-between items-center mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#C1C7C8] w-8 h-8 rounded-full flex items-center justify-center">
-                    <User className="text-[#475A5C]" size={18} />
-                  </div>
-                  <span className="italic text-sm">Exemplo</span>
-                </div>
-
-                <Star className="text-[#C1C7C8] cursor-pointer" size={18} />
-              </div> 
-
-              <div className="bg-[#475A5C]/50 rounded p-2 text-center text-white mb-2">
-                {example.title}
+              <div className="flex justify-center space-x-4 mb-6">
+                <Link
+                  href="/add_repertorio"
+                  className="flex items-center px-8 py-2 bg-teal-700 text-white rounded-full hover:bg-teal-800 transition-colors"
+                >
+                  <Plus size={18} className="mr-2" />
+                  Adicionar
+                </Link>
               </div>
 
-              <div className="flex flex-col gap-2 mb-2">
-                <div className="bg-[#475A5C]/50 rounded p-2 text-center text-white">
-                  <span className="italic">“</span>
-                  Citação
-                  <span className="italic">”</span>
-                </div>
+              {/* Filtro de categorias */}
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {categorias.map((categoria) => (
+                  <button
+                    key={categoria}
+                    onClick={() => setCategoriaAtiva(categoria === "Todos" ? null : categoria)}
+                    className={`px-3 py-1 text-sm rounded-full transition-colors ${
+                      (categoria === "Todos" && categoriaAtiva === null) || categoria === categoriaAtiva
+                        ? "bg-gray-700 text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                  >
+                    {categoria}
+                  </button>
+                ))}
               </div>
-
-              <div className="bg-[#475A5C]/50 rounded p-2 text-center text-white mb-2">
-                {example.source}
-              </div>
-
             </div>
-          ))}
+          </div>
+
+          {/* Linha divisória */}
+          <div className="border-t border-gray-300 mb-10"></div>
+
+          {/* Mensagem quando não há resultados */}
+          {repertoriosFiltrados.length === 0 && (
+            <div className="text-center py-10">
+              <p className="text-gray-500 mb-4">Nenhum repertório encontrado.</p>
+              <Link
+                href="/adicionar"
+                className="inline-flex items-center px-4 py-2 bg-teal-700 text-white rounded-md hover:bg-teal-800 transition-colors"
+              >
+                <Plus size={18} className="mr-2" />
+                Adicionar novo repertório
+              </Link>
+            </div>
+          )}
+
+          {/* Cards de repertório */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {repertoriosFiltrados.map((repertorio) => (
+              <RepertorioCard key={repertorio.id} repertorio={repertorio} onEdit={handleEditRepertorio} />
+            ))}
+          </div>
         </div>
-      </section>
+      </div>
     </main>
-  );
+  )
 }
