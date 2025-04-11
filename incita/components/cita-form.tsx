@@ -4,6 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { X } from "lucide-react"
 import type { CitacaoData } from "@/../contexts/citacao-context"
+import axios from 'axios'
 
 type CitacaoFormProps = {
   onSubmit: (data: CitacaoData) => Promise<void>

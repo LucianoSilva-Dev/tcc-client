@@ -6,6 +6,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { EyeOff, Eye } from "lucide-react"
+import axios, { AxiosError } from 'axios'
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -46,7 +47,7 @@ export default function RegisterForm() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     // Verificar se as senhas coincidem
@@ -55,8 +56,24 @@ export default function RegisterForm() {
       return
     }
 
-    // Implementar lógica de registro aqui
-    console.log("Registro com:", formData)
+    // TODO: centralizar urls e endpoints em um único lugar
+    try {
+      const { name, email, password } = formData
+      const response = await axios.post('http://localhost:3001/auth/register', { name, email, password })
+      console.log(response.data)
+      localStorage.setItem('userToken', response.data.token as string)
+    } catch (e) {
+      // TODO: Converter a lógica abaixo para estar em uma função utilitária.
+      if (e instanceof AxiosError) {
+        switch(e.status) {
+          case 400: 
+            e.response!.data.errors.map((responseErrors: string) => console.log(responseErrors))
+          default:
+            console.log(e.response!.data.error)
+        }
+      }
+    }
+    
   }
 
   return (

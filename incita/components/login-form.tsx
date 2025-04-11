@@ -4,16 +4,19 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { EyeOff, Eye } from "lucide-react"
+import axios from 'axios'
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Implementar lógica de autenticação aqui
-    console.log("Login com:", email, password)
+    
+    // TODO: centralizar urls e endpoints em um único lugar
+    const response = await axios.post('http://localhost:3001/auth/login', { email, password })
+    localStorage.setItem('userToken', response.data.token as string)
   }
 
   return (
