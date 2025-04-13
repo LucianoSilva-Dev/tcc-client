@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import Header from "@/../components/header"
 import { RepertorioProvider } from "@/../contexts/repertorio-context"
 import { CitacaoProvider } from "@/../contexts/citacao-context"
+import { ToastContainer } from "react-toastify"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -25,6 +26,7 @@ export default function RootLayout({
           <CitacaoProvider>
             <Header />
             {children}
+            <ToastContainer theme="light" autoClose={5000} />
           </CitacaoProvider>
         </RepertorioProvider>
       </body>

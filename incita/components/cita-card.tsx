@@ -15,11 +15,11 @@ export default function CitacaoCard({ citacao }: CitacaoCardProps) {
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
       {/* Conteúdo da citação */}
       <div className="p-4">
-        <p className="text-gray-800 italic mb-3">"{citacao.conteudo}"</p>
+        <p className="text-gray-800 italic mb-3">"{citacao.content}"</p>
         <div className="flex justify-between items-center">
           <div>
-            <p className="font-medium text-gray-900">{citacao.autor}</p>
-            <p className="text-sm text-gray-600">{citacao.fonte}</p>
+            <p className="font-medium text-gray-900">{citacao.author}</p>
+            <p className="text-sm text-gray-600">{citacao.font}</p>
           </div>
           <button
             onClick={() => toggleFavorito(citacao.id)}

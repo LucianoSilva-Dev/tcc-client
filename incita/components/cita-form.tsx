@@ -4,7 +4,11 @@ import type React from "react"
 import { useState } from "react"
 import { X } from "lucide-react"
 import type { CitacaoData } from "@/../contexts/citacao-context"
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
+import { handleAxiosError } from "@/../src/app/utils"
+import { API_BASE_URL } from "@/app/constants"
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
 
 type CitacaoFormProps = {
   onSubmit: (data: CitacaoData) => Promise<void>
@@ -12,6 +16,7 @@ type CitacaoFormProps = {
 }
 
 export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
+  const router = useRouter()
   const [formData, setFormData] = useState<CitacaoData>({
     autor: "",
     conteudo: "",
@@ -61,12 +66,21 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
       return
     }
 
-    setIsSubmitting(true)
-
     try {
-      await onSubmit(formData)
-    } catch (error) {
-      console.error("Erro ao salvar citação:", error)
+      setIsSubmitting(true)
+      const { autor: author, conteudo: content, fonte: font } = formData
+      // TODO: Verificar se o token do usuario está realmente presente no localStorage antes de fazer a requisição.
+      const headers: AxiosRequestConfig = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        }
+      }
+      const response = await axios.post(`${API_BASE_URL}/background`, { author, content, font }, headers)
+      toast.success(response.data.message as string)
+      router.push("/citar")
+    } catch (e) {
+      console.log(e)
+      handleAxiosError(e)
     } finally {
       setIsSubmitting(false)
     }
@@ -90,9 +104,8 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
               name="autor"
               value={formData.autor}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border ${
-                errors.autor ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
+              className={`w-full px-3 py-2 border ${errors.autor ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite o autor da citação"
             />
             {errors.autor && <p className="mt-1 text-sm text-red-500">{errors.autor}</p>}
@@ -108,9 +121,8 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
               value={formData.conteudo}
               onChange={handleChange}
               rows={5}
-              className={`w-full px-3 py-2 border ${
-                errors.conteudo ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
+              className={`w-full px-3 py-2 border ${errors.conteudo ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite o conteúdo da citação"
             />
             {errors.conteudo && <p className="mt-1 text-sm text-red-500">{errors.conteudo}</p>}
@@ -126,9 +138,8 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
               name="fonte"
               value={formData.fonte}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border ${
-                errors.fonte ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
+              className={`w-full px-3 py-2 border ${errors.fonte ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite a fonte da citação"
             />
             {errors.fonte && <p className="mt-1 text-sm text-red-500">{errors.fonte}</p>}

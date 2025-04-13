@@ -6,9 +6,14 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { EyeOff, Eye } from "lucide-react"
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
+import { API_BASE_URL } from "@/app/constants"
+import { toast } from "react-toastify"
+import { handleAxiosError } from "@/app/utils"
+import { useRouter } from "next/navigation"
 
 export default function RegisterForm() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -56,24 +61,15 @@ export default function RegisterForm() {
       return
     }
 
-    // TODO: centralizar urls e endpoints em um único lugar
     try {
       const { name, email, password } = formData
-      const response = await axios.post('http://localhost:3001/auth/register', { name, email, password })
-      console.log(response.data)
-      localStorage.setItem('userToken', response.data.token as string)
+      const response = await axios.post(`${API_BASE_URL}/auth/register`, { name, email, password })
+      toast.success(response.data.message as string)
+      router.push("/login")
     } catch (e) {
-      // TODO: Converter a lógica abaixo para estar em uma função utilitária.
-      if (e instanceof AxiosError) {
-        switch(e.status) {
-          case 400: 
-            e.response!.data.errors.map((responseErrors: string) => console.log(responseErrors))
-          default:
-            console.log(e.response!.data.error)
-        }
-      }
+      handleAxiosError(e)
     }
-    
+
   }
 
   return (

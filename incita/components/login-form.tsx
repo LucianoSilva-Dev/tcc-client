@@ -5,18 +5,30 @@ import Image from "next/image"
 import Link from "next/link"
 import { EyeOff, Eye } from "lucide-react"
 import axios from 'axios'
+import { API_BASE_URL } from "@/app/constants"
+import { handleAxiosError } from "@/app/utils"
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // TODO: centralizar urls e endpoints em um único lugar
-    const response = await axios.post('http://localhost:3001/auth/login', { email, password })
-    localStorage.setItem('userToken', response.data.token as string)
+    try {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, password })
+      localStorage.setItem('userToken', response.data.token as string);
+      toast.success("Login realizado com sucesso!")
+      router.push("/citar")
+    } catch (e) {
+      handleAxiosError(e)
+    }
+
   }
 
   return (

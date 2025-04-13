@@ -3,11 +3,14 @@
 import type React from "react"
 
 import { createContext, useContext, useState, useEffect } from "react"
+import axios from "axios"
+import { API_BASE_URL } from "@/app/constants"
+import { handleAxiosError } from "@/app/utils"
 
 export interface CitacaoData {
-  autor: string
-  conteudo: string
-  fonte: string
+  author: string
+  content: string
+  font: string
 }
 
 export interface Citacao extends CitacaoData {
@@ -32,42 +35,15 @@ export function CitacaoProvider({ children }: { children: React.ReactNode }) {
 
   // Carregar dados do localStorage na inicialização
   useEffect(() => {
-    const storedCitacoes = localStorage.getItem("citacoes")
-    const storedFavoritos = localStorage.getItem("citacoesFavoritas")
-
-    if (storedCitacoes) {
-      setCitacoes(JSON.parse(storedCitacoes))
-    } else {
-      // Dados iniciais de exemplo
-      setCitacoes([
-        {
-          id: "1",
-          autor: "Fernando Pessoa",
-          conteudo: "A liberdade é a possibilidade do isolamento. Se te é impossível viver só, nasceste escravo.",
-          fonte: "Livro do Desassossego",
-          criadaEm: new Date().toISOString(),
-        },
-        {
-          id: "2",
-          autor: "Albert Einstein",
-          conteudo:
-            "Tudo o que é realmente grande e inspirador é criado pelo indivíduo que pode trabalhar em liberdade.",
-          fonte: "Escritos",
-          criadaEm: new Date().toISOString(),
-        },
-        {
-          id: "3",
-          autor: "Nelson Mandela",
-          conteudo: "A educação é a arma mais poderosa que você pode usar para mudar o mundo.",
-          fonte: "Discurso",
-          criadaEm: new Date().toISOString(),
-        },
-      ])
+    const getCitations = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/background`)
+        setCitacoes(response.data)
+      } catch (e) {
+        handleAxiosError(e)
+      }
     }
-
-    if (storedFavoritos) {
-      setFavoritos(JSON.parse(storedFavoritos))
-    }
+    getCitations()
 
     setIsLoaded(true)
   }, [])
@@ -104,9 +80,9 @@ export function CitacaoProvider({ children }: { children: React.ReactNode }) {
     const termoBusca = termo.toLowerCase().trim()
     return citacoes.filter(
       (cit) =>
-        cit.conteudo.toLowerCase().includes(termoBusca) ||
-        cit.autor.toLowerCase().includes(termoBusca) ||
-        cit.fonte.toLowerCase().includes(termoBusca),
+        cit.content.toLowerCase().includes(termoBusca) ||
+        cit.author.toLowerCase().includes(termoBusca) ||
+        cit.font.toLowerCase().includes(termoBusca),
     )
   }
 
