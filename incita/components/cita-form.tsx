@@ -18,9 +18,9 @@ type CitacaoFormProps = {
 export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
   const router = useRouter()
   const [formData, setFormData] = useState<CitacaoData>({
-    autor: "",
-    conteudo: "",
-    fonte: "",
+    author: "",
+    content: "",
+    font: "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -43,16 +43,16 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.autor.trim()) {
-      newErrors.autor = "O autor é obrigatório"
+    if (!formData.author.trim()) {
+      newErrors.author = "O autor é obrigatório"
     }
 
-    if (!formData.conteudo.trim()) {
-      newErrors.conteudo = "O conteúdo da citação é obrigatório"
+    if (!formData.content.trim()) {
+      newErrors.content = "O conteúdo da citação é obrigatório"
     }
 
-    if (!formData.fonte.trim()) {
-      newErrors.fonte = "A fonte é obrigatória"
+    if (!formData.font.trim()) {
+      newErrors.font = "A fonte é obrigatória"
     }
 
     setErrors(newErrors)
@@ -68,7 +68,7 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
 
     try {
       setIsSubmitting(true)
-      const { autor: author, conteudo: content, fonte: font } = formData
+      const { author, content, font } = formData
       // TODO: Verificar se o token do usuario está realmente presente no localStorage antes de fazer a requisição.
       const headers: AxiosRequestConfig = {
         headers: {
@@ -102,13 +102,13 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
               type="text"
               id="autor"
               name="autor"
-              value={formData.autor}
+              value={formData.author}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.autor ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 border ${errors.author ? "border-red-500" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite o autor da citação"
             />
-            {errors.autor && <p className="mt-1 text-sm text-red-500">{errors.autor}</p>}
+            {errors.author && <p className="mt-1 text-sm text-red-500">{errors.author}</p>}
           </div>
 
           <div className="mb-5">
@@ -118,14 +118,14 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
             <textarea
               id="conteudo"
               name="conteudo"
-              value={formData.conteudo}
+              value={formData.content}
               onChange={handleChange}
               rows={5}
-              className={`w-full px-3 py-2 border ${errors.conteudo ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 border ${errors.content ? "border-red-500" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite o conteúdo da citação"
             />
-            {errors.conteudo && <p className="mt-1 text-sm text-red-500">{errors.conteudo}</p>}
+            {errors.content && <p className="mt-1 text-sm text-red-500">{errors.content}</p>}
           </div>
 
           <div className="mb-6">
@@ -136,13 +136,13 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
               type="text"
               id="fonte"
               name="fonte"
-              value={formData.fonte}
+              value={formData.font}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.fonte ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 border ${errors.font ? "border-red-500" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600`}
               placeholder="Digite a fonte da citação"
             />
-            {errors.fonte && <p className="mt-1 text-sm text-red-500">{errors.fonte}</p>}
+            {errors.font && <p className="mt-1 text-sm text-red-500">{errors.font}</p>}
           </div>
 
           <div className="flex justify-end space-x-4">
