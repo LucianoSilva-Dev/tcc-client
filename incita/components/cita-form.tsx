@@ -95,13 +95,13 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
       <div className="p-6">
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label htmlFor="autor" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
               Autor
             </label>
             <input
               type="text"
-              id="autor"
-              name="autor"
+              id="author"
+              name="author" // Corrigido para "author"
               value={formData.author}
               onChange={handleChange}
               className={`w-full px-3 py-2 border ${errors.author ? "border-red-500" : "border-gray-300"
@@ -112,12 +112,12 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="conteudo" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
               Conteúdo
             </label>
             <textarea
-              id="conteudo"
-              name="conteudo"
+              id="content" // Corrigido para "content"
+              name="content" // Corrigido para "content"
               value={formData.content}
               onChange={handleChange}
               rows={5}
@@ -129,13 +129,13 @@ export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="fonte" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="font" className="block text-sm font-medium text-gray-700 mb-1">
               Fonte
             </label>
             <input
               type="text"
-              id="fonte"
-              name="fonte"
+              id="font" // Corrigido para "font"
+              name="font" // Corrigido para "font"
               value={formData.font}
               onChange={handleChange}
               className={`w-full px-3 py-2 border ${errors.font ? "border-red-500" : "border-gray-300"

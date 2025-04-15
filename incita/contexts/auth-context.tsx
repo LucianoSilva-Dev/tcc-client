@@ -16,18 +16,19 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  // Verifica o token quando o componente for montado ou re-renderizado
   useEffect(() => {
-    const token = localStorage.getItem("userToken")
+    const token = localStorage.getItem('userToken')
     setIsLoggedIn(!!token)
-  }, [])
+  }, []) // Só roda quando o componente for montado
 
   const login = (token: string) => {
-    localStorage.setItem("userToken", token)
+    localStorage.setItem('userToken', token)
     setIsLoggedIn(true)
   }
 
   const logout = () => {
-    localStorage.removeItem("userToken")
+    localStorage.removeItem('userToken')
     setIsLoggedIn(false)
   }
 

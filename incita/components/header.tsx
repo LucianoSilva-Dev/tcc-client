@@ -1,25 +1,23 @@
 'use client'
 
+import { useAuth } from '@/../contexts/auth-context'
+import { useRouter, usePathname } from 'next/navigation'
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 export default function Header() {
   const pathname = usePathname()
+  const router = useRouter()
+  const { isLoggedIn, logout } = useAuth()
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    // Só roda no cliente, após o componente montar
-    const token = localStorage.getItem("userToken")
-    setIsLoggedIn(token !== null)
-  }, [])
-
-  // Função para verificar se o link está ativo
-  const isActive = (path: string) => {
-    return pathname === path
+  const handleLogout = () => {
+    logout()
+    router.push('/login')
+    router.refresh()
   }
+
+  const isActive = (path: string) => pathname === path
 
   return (
     <nav className="bg-gray-900 text-white p-4">
@@ -39,14 +37,21 @@ export default function Header() {
             Citações
           </Link>
         </div>
+
         <div className="flex items-center space-x-4">
-          { !isLoggedIn ? (
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors"
+            >
+              Sair
+            </button>
+          ) : (
             <>
               <Link
                 href="/login"
                 className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors"
               >
-
                 Entrar
               </Link>
               <Link
@@ -56,18 +61,7 @@ export default function Header() {
                 Cadastrar-se
               </Link>
             </>
-
-          ) : (
-            <>
-              <Link
-                href="/logout"
-                className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors"
-              >
-                Sair
-              </Link>
-            </>
           )}
-
         </div>
       </div>
     </nav>

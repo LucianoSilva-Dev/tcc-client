@@ -12,10 +12,12 @@ export default function AdicionarCitacao() {
   const handleSubmit = async (data: CitacaoData) => {
     await adicionarCitacao(data)
     router.push("/citar")
+    router.refresh()
   }
 
   const handleCancel = () => {
     router.push("/citar")
+    router.refresh()
   }
 
   return (

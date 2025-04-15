@@ -25,6 +25,7 @@ export default function LoginForm() {
       localStorage.setItem('userToken', response.data.token as string);
       toast.success("Login realizado com sucesso!")
       router.push("/citar")
+      router.refresh()
     } catch (e) {
       handleAxiosError(e)
     }
