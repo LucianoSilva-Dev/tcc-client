@@ -2,15 +2,21 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Search, Plus } from "lucide-react"
 import Link from "next/link"
 import { useCitacao } from "@/../contexts/citacao-context"
 import CitacaoCard from "@/../components/cita-card"
 
 export default function Citacoes() {
-  const { citacoes, pesquisar } = useCitacao()
+  const { citacoes, pesquisar, getCitations} = useCitacao()
   const [termoBusca, setTermoBusca] = useState("")
+
+  // carrega as citações toda vez que a pagina é carregada
+  useEffect(() => {
+    getCitations()
+    }, []
+  )
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()

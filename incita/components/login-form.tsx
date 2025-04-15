@@ -9,8 +9,10 @@ import { API_BASE_URL } from "@/app/constants"
 import { handleAxiosError } from "@/app/utils"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { useAuth } from '@/../contexts/auth-context'
 
 export default function LoginForm() {
+  const {login} = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -22,10 +24,9 @@ export default function LoginForm() {
     // TODO: centralizar urls e endpoints em um único lugar
     try {
       const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, password })
-      localStorage.setItem('userToken', response.data.token as string);
+      login(response.data.token as string)
       toast.success("Login realizado com sucesso!")
       router.push("/citar")
-      router.refresh()
     } catch (e) {
       handleAxiosError(e)
     }

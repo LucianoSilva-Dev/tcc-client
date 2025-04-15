@@ -6,6 +6,7 @@ import { createContext, useContext, useState, useEffect } from "react"
 import axios from "axios"
 import { API_BASE_URL } from "@/app/constants"
 import { handleAxiosError } from "@/app/utils"
+import { promises } from "dns"
 
 export interface CitacaoData {
   author: string
@@ -15,7 +16,6 @@ export interface CitacaoData {
 
 export interface Citacao extends CitacaoData {
   id: string
-  criadaEm: string
 }
 
 interface CitacaoContextType {
@@ -23,6 +23,7 @@ interface CitacaoContextType {
   adicionarCitacao: (data: CitacaoData) => Promise<Citacao>
   toggleFavorito: (id: string) => void
   favoritos: string[]
+  getCitations: () => Promise<void>
   pesquisar: (termo: string) => Citacao[]
 }
 
@@ -34,19 +35,16 @@ export function CitacaoProvider({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   // Carregar dados do localStorage na inicialização
-  useEffect(() => {
-    const getCitations = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/background`)
-        setCitacoes(response.data)
-      } catch (e) {
-        handleAxiosError(e)
-      }
+  const getCitations = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/background`)
+      setCitacoes(response.data)
+    } catch (e) {
+      handleAxiosError(e)
+    } finally {
+      setIsLoaded(true)
     }
-    getCitations()
-
-    setIsLoaded(true)
-  }, [])
+  }
 
   // Salvar dados no localStorage quando houver mudanças
   useEffect(() => {
@@ -61,12 +59,13 @@ export function CitacaoProvider({ children }: { children: React.ReactNode }) {
     const novaCitacao: Citacao = {
       ...data,
       id: Date.now().toString(),
-      criadaEm: new Date().toISOString(),
     }
 
     setCitacoes((prev) => [novaCitacao, ...prev])
     return novaCitacao
   }
+
+  
 
   // Adicionar/remover dos favoritos
   const toggleFavorito = (id: string) => {
@@ -92,6 +91,7 @@ export function CitacaoProvider({ children }: { children: React.ReactNode }) {
         citacoes,
         adicionarCitacao,
         toggleFavorito,
+        getCitations,
         favoritos,
         pesquisar,
       }}

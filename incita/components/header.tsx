@@ -14,7 +14,6 @@ export default function Header() {
   const handleLogout = () => {
     logout()
     router.push('/login')
-    router.refresh()
   }
 
   const isActive = (path: string) => pathname === path
