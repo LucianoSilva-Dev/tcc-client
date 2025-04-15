@@ -10,9 +10,10 @@ export const handleAxiosError = (e: unknown) => {
 				errorMessage = e.response!.data.errors.map(
 					(responseErrors: string) => responseErrors,
 				) as string[];
-                
+                break
 			default:
 				errorMessage = e.response!.data.error as string;
+				break
 		}
 	}
 
@@ -24,4 +25,6 @@ export const handleAxiosError = (e: unknown) => {
     else {
         toast.error(errorMessage)
     }
+
+	console.log("Mensagem de erro" + " " + errorMessage)
 };

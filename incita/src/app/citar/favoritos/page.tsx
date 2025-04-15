@@ -44,6 +44,14 @@ export default function CitacoesFavoritas() {
                 />
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
               </form>
+              <div className="flex justify-center space-x-4 mb-6">
+              <Link
+                href="/citar"
+                className="flex items-center px-8 py-2 bg-teal-700 text-white rounded-full hover:bg-teal-800 transition-colors"
+              >
+                Explorar citações
+              </Link>
+              </div>
             </div>
           </div>
 
@@ -56,12 +64,6 @@ export default function CitacoesFavoritas() {
                   ? "Nenhuma citação favorita encontrada para esta busca."
                   : "Você ainda não tem citações favoritas."}
               </p>
-              <Link
-                href="/citar"
-                className="inline-flex items-center px-4 py-2 bg-purple-700 text-white rounded-md hover:bg-purple-800 transition-colors"
-              >
-                Explorar citações
-              </Link>
             </div>
           )}
 

@@ -33,8 +33,9 @@ export default function RegisterForm() {
 
     // Validação de senha
     if (name === "password") {
-      if (value.length < 8) {
-        setErrors((prev) => ({ ...prev, password: "A senha deve ter pelo menos 8 caracteres" }))
+      const passwordRegex = /^(?=.*[a-z])(?=.*\d).{8,24}$/
+      if (!passwordRegex.test(value)) {
+        setErrors((prev) => ({ ...prev, password: "A senha precisa ter de 8 a 24 caracteres, ao menos uma letra minúscula e um número." }))
       } else {
         setErrors((prev) => ({ ...prev, password: "" }))
       }
@@ -67,6 +68,7 @@ export default function RegisterForm() {
       toast.success(response.data.message as string)
       router.push("/login")
     } catch (e) {
+      console.log("Erro:" + "\n" + e)
       handleAxiosError(e)
     }
 
