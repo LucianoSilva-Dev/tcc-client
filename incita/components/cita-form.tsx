@@ -113,8 +113,8 @@ export default function CitacaoForm({ onSubmit, onCancel, onAdd }: CitacaoFormPr
           </div>
 
           <div className="mb-5">
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-              Conteúdo
+            <label htmlFor="content" className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+              Conteúdo <p className="text-[0.7rem] text-gray-500">(não coloque aspas)</p>
             </label>
             <textarea
               id="content" // Corrigido para "content"

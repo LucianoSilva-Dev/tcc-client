@@ -41,7 +41,7 @@ export default function Header() {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors"
+              className="px-6 py-2 rounded-full border border-white/20 hover:bg-gray-800 transition-colors cursor-pointer"
             >
               Sair
             </button>
