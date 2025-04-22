@@ -1,0 +1,52 @@
+
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variáveis de cor */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+
+  --primary: 220 60% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 40%;
+
+  --border: 0 0% 80%;
+}
+
+.dark {
+  --background: 0 0% 5%;
+  --foreground: 0 0% 95%;
+
+  --primary: 220 60% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 60%;
+
+  --border: 0 0% 20%;
+}
+
+/* Base Tailwind */
+@layer base {
+  * {
+    border: 'hsl(var(--border))';
+  }
+
+  body {
+    background: 'hsl(var(--background))';
+    foreground: 'hsl(var(--foreground))';
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+/* Utilitários extras */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
