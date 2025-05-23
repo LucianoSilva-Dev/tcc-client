@@ -12,7 +12,7 @@ import { toast } from "react-toastify"
 import { handleAxiosError } from "@/app/utils"
 import { useRouter } from "next/navigation"
 
-export default function RegisterForm() {
+export default function FormProfessor() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -21,14 +21,18 @@ export default function RegisterForm() {
     email: "",
     password: "",
     confirmPassword: "",
+    curriculoLattes: "",
+    aceitouTermos: false,
   })
+
   const [errors, setErrors] = useState({
     password: "",
     confirmPassword: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
+    const checked = type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined
     setFormData((prev) => ({ ...prev, [name]: value }))
 
     // Validação de senha
@@ -128,6 +132,21 @@ export default function RegisterForm() {
         </div>
 
         <div className="mb-4">
+        <label htmlFor="curriculoLattes" className="block text-sm font-medium text-gray-700 mb-1">
+          Currículo Lattes
+        </label>
+        <input
+          type="url"
+          id="curriculoLattes"
+          name="curriculoLattes"
+          value={formData.curriculoLattes}
+          onChange={handleChange}
+            className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600"
+            required
+        />
+      </div>
+
+        <div className="mb-4">
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             Senha
           </label>
@@ -177,6 +196,25 @@ export default function RegisterForm() {
           </div>
           {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>}
         </div>
+
+        {/* Termos e Condições */}
+      <div className="mb-6">
+        <label className="flex items-start">
+          <input
+            type="checkbox"
+            name="aceitouTermos"
+            checked={formData.aceitouTermos}
+            onChange={handleChange}
+            className="mt-1 h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+          />
+          <span className="ml-2 text-sm text-gray-700">
+            Eu concordo com os{" "}
+            <Link href="/termos" className="text-teal-600 hover:text-teal-700">
+              Termos e Condições
+            </Link>
+          </span>
+        </label>
+      </div>
 
         <button
           type="submit"

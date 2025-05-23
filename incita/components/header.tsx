@@ -22,7 +22,7 @@ export default function Header() {
     <nav className="bg-gray-900 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <Link href="/" className="flex items-center">
+          <Link href="/main" className="flex items-center">
             <Image src="/favicon_2d.png" alt="Incita Logo" width={40} height={40} />
             <span className={`ml-2 text-lg font-medium ${isActive('/') ? 'text-white' : 'text-gray-300 hover:text-white transition-colors'}`}>
               Início

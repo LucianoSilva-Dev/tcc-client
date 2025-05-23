@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import CitacaoForm from "@/../components/cita-form"
+import CitacaoForm from "../../../../components/repertorio/cita-form"
 import { useCitacao } from "@/../contexts/citacao-context"
 import type { CitacaoData } from "@/../contexts/citacao-context"
 

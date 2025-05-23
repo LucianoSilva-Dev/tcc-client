@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { Search, Plus } from "lucide-react"
 import Link from "next/link"
 import { useCitacao } from "@/../contexts/citacao-context"
-import CitacaoCard from "@/../components/cita-card"
+import CitacaoCard from "../../../components/repertorio/cita-card"
 
 export default function Citacoes() {
   const { citacoes, pesquisar, getCitations} = useCitacao()

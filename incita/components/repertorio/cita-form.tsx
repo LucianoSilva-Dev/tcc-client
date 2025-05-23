@@ -13,10 +13,9 @@ import { useRouter } from "next/navigation"
 type CitacaoFormProps = {
   onSubmit: (data: CitacaoData) => Promise<void>
   onCancel: () => void
-  onAdd: () => void
 }
 
-export default function CitacaoForm({ onSubmit, onCancel, onAdd }: CitacaoFormProps) {
+export default function CitacaoForm({ onSubmit, onCancel }: CitacaoFormProps) {
   const router = useRouter()
   const [formData, setFormData] = useState<CitacaoData>({
     author: "",

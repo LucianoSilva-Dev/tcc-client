@@ -3,8 +3,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import FormAluno  from "../../../components/auth/register-aluno"
-import FormProfessor  from "../../../components/auth/register-professor"
+import  FormAluno  from "./register-aluno"
+import  FormProfessor  from "./register-professor"
 import type { UserType, UserRegistration } from "@/../types/user"
 
 export function RegisterForm() {

@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import type { RepertorioData } from "@/../components/repertorio_form"
+import type { RepertorioData } from "../components/repertorio/repertorio_form"
 
 import { createContext, useContext, useState, useEffect } from "react"
 

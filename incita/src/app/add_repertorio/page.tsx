@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import RepertorioForm, { RepertorioData } from "@/../components/repertorio_form"
+import RepertorioForm, { RepertorioData } from "../../../components/repertorio/repertorio_form"
 
 export default function AdicionarRepertorio() {
   const router = useRouter()

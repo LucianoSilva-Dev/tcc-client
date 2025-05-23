@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Search } from "lucide-react"
 import Link from "next/link"
 import { useCitacao } from "@/../contexts/citacao-context"
-import CitacaoCard from "@/../components/cita-card"
+import CitacaoCard from "../../../../components/repertorio/cita-card"
 import { useRouter } from "next/navigation"
 
 export default function CitacoesFavoritas() {
